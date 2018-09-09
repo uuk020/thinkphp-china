@@ -2,10 +2,9 @@
 
 <p align="center">:rainbow: 基于Thinkphp5.0和fly社区前端模板构建PHP论坛.</p>
 
-<img src="https://s1.ax1x.com/2018/09/09/iiRR58.png" alt="downloads" border="0">
-<img src="https://s1.ax1x.com/2018/09/09/iiRfPS.png" alt="build thinkphp" border="0">
-<img src="https://s1.ax1x.com/2018/09/09/iiR2Uf.png" alt="build fly" border="0">
-
+[![Build Status](https://s1.ax1x.com/2018/09/09/iihuUP.png)](https://www.thinkphp.cn)
+[![Build Status](https://s1.ax1x.com/2018/09/09/iihZDA.png)](https://fly.layui.com)
+![downloads 32M/m](https://s1.ax1x.com/2018/09/09/iiRR58.png)
 
 <h2>项目介绍</h2>
 <p>闲暇之时使用thinkphp和fly社区前端模板开发了一个论坛用来整理技能知识, 基本上满足一个论坛所需功能.欢迎使用和提出issue!</p>
@@ -20,12 +19,16 @@
     <li>用户封禁</li>
 </ul>
 
+![前端展示页面](https://s1.ax1x.com/2018/09/09/iihnEt.png)
+
+![后端展示页面](https://s1.ax1x.com/2018/09/09/iiheHI.png)
+
 <h2>使用说明</h2>
 <ul>
     <li>请将项目内的所有文件直接放在根目录下；不要多层目录；例如正确：www/;错误：www/thinkbjy/</li>
     <li>管理员登录账号和密码默认为admin/123456</li>
     <li>配置在application/config-user.php, 需要修改成application/config.php</li>
-    <li>数据库database-user.php也需要修改成database.php. 暂时不支持页面安装. 需要sql导入到数据库</li>
+    <li>数据库database-user.php也需要修改成database.php. 暂时不支持页面安装. 需要导入sql文件, 根目录tp_forum.sql文件</li>
 </ul>
 
 <h2>未来计划</h2>
