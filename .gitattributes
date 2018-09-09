@@ -1,4 +1,4 @@
-public/static/* linguist-vendored
-public/admin/* linguist-vendored
-application/index/view/*.html linguist-vendored
-application/admin/view/*.html linguist-vendored
+public/static/* linguist-documentation
+public/admin/* linguist-documentation
+application/index/view/* linguist-documentation
+application/admin/view/* linguist-documentation
