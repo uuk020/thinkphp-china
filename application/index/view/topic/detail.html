@@ -1,0 +1,205 @@
+{include file='common/header'/}
+<div class="layui-hide-xs">
+  <div class="fly-panel fly-column">
+    <div class="layui-container">
+      <ul class="layui-clear">
+        <li class="layui-hide-xs"><a href="/">首页</a></li>
+        {foreach name='$category' item='cat'}
+        {foreach name='$cat' item='vo'}
+        <li class={$key==$post.category_id?"layui-this":''}>
+          <a href="">{$vo}</a>
+          {if condition="$key == 1"}
+          <span class="layui-badge-dot"></span>
+          {/if}
+        </li>
+        {/foreach}
+        {/foreach}
+        <!-- 用户登入后显示 -->
+        {if condition='$Request.session.user.id'}
+        <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li>
+        <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="{:url('User/index')}">我发表的贴</a></li>
+        <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="{:url('User/index#collection')}">我收藏的贴</a></li>
+        {/if}
+      </ul>
+
+      <div class="fly-column-right layui-hide-xs">
+        <span class="fly-search"><i class="layui-icon"></i></span>
+        <a href="{:url('Topic/add')}" class="layui-btn">发表新帖</a>
+      </div>
+      <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;">
+        <a href="{:url('Topic/add')}" class="layui-btn">发表新帖</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="layui-container">
+  <div class="layui-row layui-col-space15">
+    <div class="layui-col-md8 content detail">
+      <div class="fly-panel detail-box">
+        <h1>{$post.title}</h1>
+        <div class="fly-detail-info">
+          <span>{$post.create_time}</span>
+          <span class="fly-list-nums">
+            <a href="#comment"><i class="iconfont" title="回复">&#xe60c;</i> {$replyCount}</a>
+            <span class="jieda-zan" style="cursor: pointer" type="zan" id="like_post" data-post="{$post.id}">
+              <i class="iconfont icon-zan"></i> <em>{$likeCount}</em>
+            </span>
+          </span>
+        </div>
+        <div class="detail-about">
+          <a class="fly-avatar" href="{$authorHomepage}">
+            <img src="{$post['user']['avatar']}" alt="{$post['user']['nickname']}">
+          </a>
+          <div class="fly-detail-user">
+            <a href="{$authorHomepage}" class="fly-link">
+              <cite>{$post['user']['nickname']}</cite>
+              <i class="iconfont icon-renzheng" title="认证信息"></i>
+              <i class="layui-badge fly-badge-vip">VIP</i>
+            </a>
+            <span>{$post['user']['create_time']}</span>
+          </div>
+          <div class="detail-hits" id="LAY_jieAdmin" data-id="{$post['user']['id']}">
+            <span style="padding-right: 10px; color: #FF7200">积分: 100</span>
+            {if condition="$post.user_id==$Request.session.user.id OR $Request.session.user.id == 1"}
+            <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a href="{$postEdit}">编辑此贴</a></span>
+            {/if}
+            {if condition="$Request.session.user.id"}
+            <span class="layui-btn layui-btn-normal layui-btn-sm" type="collection" id="collectionEvent" data-post="{$post.id}" data-user="{$Request.session.user.id}">
+              收藏
+            </span>
+            {/if}
+          </div>
+        </div>
+        <div class="detail-body photos">
+          {$post.content}
+        </div>
+      </div>
+
+      <div class="fly-panel detail-box" id="flyReply">
+        <fieldset class="layui-elem-field layui-field-title" style="text-align: center;">
+          <legend>回帖</legend>
+        </fieldset>
+
+        <ul class="jieda" id="jieda">
+          {if condition='!empty($replyInfo)'}
+          {foreach $replyInfo as $reply}
+          <li data-id="{$reply.user_id}" data-post="{$post.id}" class="jieda-daan">
+            <a name="item-{$reply.create_time}"></a>
+            <div class="detail-about detail-about-reply">
+              <a class="fly-avatar" href="{$reply['homepage']}">
+                <img src="{$reply['user']['avatar']}" alt="{reply['user']['nickname']}">
+              </a>
+              <div class="fly-detail-user">
+                <a href="{$reply['homepage']}" class="fly-link">
+                  <cite>{$reply['user']['nickname']}</cite>
+                  <i class="iconfont icon-renzheng" title="认证信息"></i>
+                  <i class="layui-badge fly-badge-vip">VIP</i>
+                </a>
+                {if condition="$reply['user_id'] == $post['user_id']"}
+                <span>(楼主)</span>
+                {/if}
+              </div>
+
+              <div class="detail-hits">
+                <span>{$reply['create_time']}</span>
+              </div>
+
+            </div>
+            <div class="detail-body jieda-body photos">
+             {$reply['content']}
+            </div>
+            <div class="jieda-reply">
+              <span class="jieda-zan" type="zan">
+                <i class="iconfont icon-zan"></i>
+                <em>{$reply['like_count']|0}</em>
+              </span>
+              <span type="reply">
+                <i class="iconfont icon-svgmoban53"></i>
+                回复
+              </span>
+            </div>
+          </li>
+          {/foreach}
+          {else /}
+          <li class="fly-none">消灭零回复</li>
+          {/if}
+        </ul>
+        <div class="layui-form layui-form-pane">
+          <form action="{:url('Reply/newReply')}" method="post">
+            <div class="layui-form-item layui-form-text">
+              <a name="comment"></a>
+              <div class="layui-input-block">
+                <textarea id="L_content" name="content" required lay-verify="required" placeholder="请输入内容"  class="layui-textarea fly-editor" style="height: 150px;"></textarea>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <input type="hidden" name="reply_id" id="reply_id" value="{$post.user_id}">
+              <input type="hidden" name="post_id" value="{$post.id}" >
+              <button class="layui-btn" lay-filter="*" lay-submit>提交回复</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="layui-col-md4">
+      <dl class="fly-panel fly-list-one">
+        <dt class="fly-panel-title">本周热议</dt>
+        {if condition="!empty($hotPosts)"}
+        {foreach $hotPosts as $hotPost}
+        <dd>
+          <a href="{$hotPost.url}">{$hotPost.title}</a>
+          <span><i class="iconfont icon-pinglun1"></i> {$hotPost.replies|count}</span>
+        </dd>
+        {/foreach}
+        <!-- 无数据时 -->
+        {else /}
+        <div class="fly-none">没有相关数据</div>
+        {/if}
+      </dl>
+
+      <div class="fly-panel">
+        <div class="fly-panel-title">
+          这里可作为广告区域
+        </div>
+        <div class="fly-panel-main">
+          <a href="" target="_blank" class="fly-zanzhu" time-limit="2017.09.25-2099.01.01" style="background-color: #5FB878;">虚位以待</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="fly-footer">
+  <p><a href="javascript:void(0)">基于Fly社区模板以及thinkPHP5.0</a> 2018 &copy; <a href="https://www.github.com/uuk020" target="_blank">Wythehuang 出品</a></p>
+  <p>
+    <a href="http://www.layui.com/template/fly/" target="_blank">获取Fly社区模版</a>
+    <a href="http://www.thinkphp.cn" target="_blank">thinkPHP5.0框架</a>
+  </p>
+</div>
+
+<script src="__LAYUI__/layui.js"></script>
+<script>
+    layui.cache.page = 'jie';
+    layui.cache.user = {
+        username: '{$Request.session.user.nickname|default="游客"}'
+        ,uid: {$Request.session.user.id|default="-1"}
+        ,avatar: '{$Request.session.user.avatar}'
+        ,experience: {$Request.session.user.experience|default="-1"}
+    };
+    layui.config({
+        version: "3.0.0"
+        ,base: '/static/mods/'
+    }).extend({
+        fly: 'index'
+    }).use(['fly', 'face'], function(){
+        var $ = layui.$
+            ,fly = layui.fly;
+        //如果你是采用模版自带的编辑器，你需要开启以下语句来解析。
+        $('.detail-body').each(function(){
+            var othis = $(this), html = othis.html();
+            othis.html(fly.content(html));
+        });
+
+    });
+</script>
+</body>
+</html>

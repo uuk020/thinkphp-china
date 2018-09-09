@@ -1,0 +1,208 @@
+{include file='common/header'}
+<div class="fly-panel fly-column">
+  <div class="layui-container">
+    <ul class="layui-clear">
+      <li class="layui-hide-xs layui-this"><a href="/">首页</a></li>
+      {foreach name='$category' item='cat'}
+      {foreach name='$cat' item='vo'}
+      <li>
+        <a href='{:url("Topic/category", "id=$key")}'>{$vo}</a>
+        {if condition="$key == 1"}
+        <span class="layui-badge-dot"></span>
+        {/if}
+      </li>
+      {/foreach}
+      {/foreach}
+      <!-- 用户登入后显示 -->
+      {if condition='$Request.session.user.id'}
+      <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li>
+      <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="{:url('User/index')}">我发表的贴</a></li>
+      <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="{:url('User/index#collection')}">我收藏的贴</a></li>
+      {/if}
+    </ul>
+
+    <div class="fly-column-right layui-hide-xs">
+      <span class="fly-search"><i class="layui-icon"></i></span>
+      <a href="{:url('Topic/add')}" class="layui-btn">发表新帖</a>
+    </div>
+    <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;">
+      <a href="{:url('Topic/add')}" class="layui-btn">发表新帖</a>
+    </div>
+  </div>
+</div>
+<div class="layui-container">
+  <div class="layui-row layui-col-space15">
+    <div class="layui-col-md8">
+      <div class="fly-panel">
+        <div class="fly-panel-title fly-filter">
+          <a>置顶</a>
+          <a href="#signin" class="layui-hide-sm layui-show-xs-block fly-right" id="LAY_goSignin" style="color: #FF5722;">去签到</a>
+        </div>
+        <ul class="fly-list">
+          {if condition="is_array($adminPost) && !empty($adminPost)"}
+          {foreach $adminPost as $post}
+          <li>
+            <a href="{:url('User/Home', 'uid=1')}" class="fly-avatar">
+              <img src="{$post['user']['avatar']}" alt="{$post['user']['nickname']}">
+            </a>
+            <h2>
+              <a class="layui-badge">公告</a>
+              <a href="{$post['url']}">{$post['title']}</a>
+            </h2>
+            <div class="fly-list-info">
+              <a href="" link>
+                <cite>{$post['user']['nickname']}</cite>
+                <i class="iconfont icon-renzheng" title="认证信息"></i>
+                <i class="layui-badge fly-badge-vip">VIP</i>
+              </a>
+              <span>{$post['create_time']}</span>
+              <span class="fly-list-nums">
+                <i class="iconfont icon-pinglun1" title="回复"></i> {$post['replies_count']}
+              </span>
+            </div>
+            <div class="fly-list-badge"></div>
+          </li>
+          {/foreach}
+          {else /}
+          <li><p class="text-center">暂无管理员公告</p></li>
+          {/if}
+        </ul>
+      </div>
+
+      <div class="fly-panel" style="margin-bottom: 0;">
+
+        <div class="fly-panel-title fly-filter">
+          <a href="{:url('Topic/index', 'filter=all')}" class="layui-this">最新时间</a>
+          <span class="fly-mid"></span>
+          <a href="{:url('Topic/index', 'filter=likes')}">点赞最多</a>
+          <span class="fly-mid"></span>
+          <a href="{:url('Topic/index', 'filter=reply')}">回复最多</a>
+          <span class="fly-mid"></span>
+          <a href="{:url('Topic/index', 'filter=unanswered')}">零回复</a>
+        </div>
+
+        <ul class="fly-list">
+          {if condition="is_array($posts) && !empty($posts)"}
+          {foreach $posts as $post}
+          <li>
+            <a href="{$post['homepage']}" class="fly-avatar">
+              <img src="{$post['user']['avatar']}" alt="{$post['user']['nickname']}">
+            </a>
+            <h2>
+              <a class="layui-badge">{$post['catName']}</a>
+              <a href="{$post['url']}">{$post['title']}</a>
+            </h2>
+            <div class="fly-list-info">
+              <a href="{$post['homepage']}">
+                <cite>{$post['user']['nickname']}</cite>
+              </a>
+              <span>{$post['create_time']}</span>
+              <span class="fly-list-nums">
+                <i class="iconfont icon-pinglun1" title="回帖"></i> {$post['replies_count']}
+              </span>
+            </div>
+            <div class="fly-list-badge">
+
+            </div>
+          </li>
+          {/foreach}
+          {else /}
+          <li><p style="text-align: center; padding: 5px;">没有相关帖子</p></li>
+          {/if}
+        </ul>
+        <div style="text-align: center">
+          <div class="laypage-main">
+            <a href="{:url('Topic/index')}" class="laypage-next">更多帖子</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="layui-col-md4">
+
+      <div class="fly-panel">
+        <h3 class="fly-panel-title">温馨通道</h3>
+        <ul class="fly-panel-main fly-list-static">
+          <li><a href="https://github.com/ruby-china/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md" target="_blank">编程提问智慧</a></li>
+          <li><a href="http://php.net/manual/zh/index.php" target="_blank">PHP 手册</a></li>
+          <li><a href="https://www.kancloud.cn/manual/thinkphp5" target="_blank">Thinkphp 5.0 开发手册</a></li>
+          <li><a href="https://laravel-china.org/docs/laravel/5.6" target="_blank">Laravel  5.6 开发手册</a></li>
+          <li><a href="https://www.yiichina.com/doc/guide/2.0" target="_blank">Yii 2 开发手册</a></li>
+        </ul>
+      </div>
+
+
+      <div class="fly-panel fly-signin">
+        {if condition='!empty($Request.session.user.id)'}
+        <div class="fly-panel-title">
+          签到
+          <i class="fly-mid"></i>
+          <a href="javascript:;" class="fly-link" id="LAY_signinHelp">说明</a>
+          <span class="fly-signin-days">已连续签到<cite>{$days|0}</cite>天</span>
+        </div>
+        <div class="fly-panel-main fly-signin-main">
+          <button class="layui-btn layui-btn-danger" id="LAY_signin">今日签到</button>
+        </div>
+        {else /}
+        <h3 class="fly-panel-title">签到</h3>
+        <p style="text-align: center; padding: 15px; color: #999;">请登录后才能签到~ <a href="{:url('User/login')}" class="layui-btn layui-btn-sm layui-btn-normal">登录</a></p>
+        {/if}
+      </div>
+
+      <div class="fly-panel fly-rank fly-rank-reply" id="LAY_replyRank">
+        <h3 class="fly-panel-title">回贴周榜</h3>
+        {if condition='is_array($replyTop) && !empty($replyTop)'}
+        <dl>
+          {foreach $replyTop as $user}
+          <dd>
+            <a href="{$user['homepage']}">
+              <img src="{$user['avatar']}"><cite>{$user['nickname']}</cite><i>{$user['reply_count']}次回贴</i>
+            </a>
+          </dd>
+          {/foreach}
+        </dl>
+        {else /}
+        <p style="text-align: center; padding: 15px; color: #999;">没有相关数据</p>
+        {/if}
+      </div>
+
+      <dl class="fly-panel fly-list-one">
+        <dt class="fly-panel-title">本周热议</dt>
+        {if condition="is_array($hotPosts) && !empty($hotPosts)"}
+        {foreach $hotPosts as $hotPost}
+        <dd>
+          <a href="{$hotPost.url}">{$hotPost.title}</a>
+          <span><i class="iconfont icon-pinglun1"></i> {$hotPost.replies|count}</span>
+        </dd>
+        {/foreach}
+        {else /}
+        <div class="fly-none">没有相关数据</div>
+        {/if}
+      </dl>
+
+      <div class="fly-panel">
+        <div class="fly-panel-title">
+          这里可作为广告区域
+        </div>
+        <div class="fly-panel-main">
+          <a href="#" target="_blank" class="fly-zanzhu" time-limit="2017.09.25-2099.01.01" style="background-color: #5FB878;">虚位以待</a>
+        </div>
+      </div>
+
+      <div class="fly-panel fly-link">
+        <h3 class="fly-panel-title">友情链接(排名不分先后)</h3>
+        <dl class="fly-panel-main">
+          <dd><a href="http://www.laruence.com/" target="_blank">鸟哥博客</a><dd>
+          <dd><a href="https://laravel-china.org/topics" target="_blank">Laravel 社区</a><dd>
+          <dd><a href="https://getyii.com/" target="_blank">Yii2 社区</a><dd>
+          <dd><a href="https://baijunyao.com/" target="_blank">白俊遥博客</a><dd>
+          <dd><a href="https://www.awaimai.com/" target="_blank">歪麦博客</a><dd>
+          <dd><a href="https://wowphp.com/square" target="_blank">wowPHP教程</a><dd>
+          <dd><a href="mailto:wythe.huangw@gmail.com?subject=%E7%94%B3%E8%AF%B7Fly%E7%A4%BE%E5%8C%BA%E5%8F%8B%E9%93%BE" class="fly-link">申请友链</a><dd>
+        </dl>
+      </div>
+
+    </div>
+  </div>
+</div>
+{include file='common/footer' modeName='index'}

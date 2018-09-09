@@ -1,0 +1,80 @@
+{include file='common/header'}
+
+<div class="layui-container fly-marginTop fly-user-main">
+  <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="user">
+    <li class="layui-nav-item">
+      <a href='{:url("User/home", "uid=$userId")}'>
+        <i class="layui-icon">&#xe609;</i>
+        我的主页
+      </a>
+    </li>
+    <li class="layui-nav-item">
+      <a href="{:url('User/index')}">
+        <i class="layui-icon">&#xe612;</i>
+        用户中心
+      </a>
+    </li>
+    <li class="layui-nav-item">
+      <a href="{:url('User/set')}">
+        <i class="layui-icon">&#xe620;</i>
+        基本设置
+      </a>
+    </li>
+    <li class="layui-nav-item layui-this">
+      <a href="{:url('User/message')}">
+        <i class="layui-icon">&#xe611;</i>
+        我的消息
+      </a>
+    </li>
+  </ul>
+
+  <div class="site-tree-mobile layui-hide">
+    <i class="layui-icon">&#xe602;</i>
+  </div>
+  <div class="site-mobile-shade"></div>
+
+  <div class="site-tree-mobile layui-hide">
+    <i class="layui-icon">&#xe602;</i>
+  </div>
+  <div class="site-mobile-shade"></div>
+
+
+  <div class="fly-panel fly-panel-user" pad20>
+	  <div class="layui-tab layui-tab-brief" lay-filter="user" id="LAY_msg" style="margin-top: 15px;">
+	    <button class="layui-btn layui-btn-danger" id="LAY_delallmsg">清空全部消息</button>
+	    <div  id="LAY_minemsg" style="margin-top: 10px;">
+        {if condition='empty($messageInfo)'}
+        <div class="fly-none">您暂时没有最新消息</div>
+        {else /}
+        <ul class="mine-msg">
+          {foreach $messageInfo as $message}
+          <li data-id="{$message['id']}">
+            <blockquote class="layui-elem-quote">
+              <a href="javascript:void(0)" target="_blank"><cite>{$message['commenter']}</cite></a>
+                {if condition="$message['object_type']==0"}
+                  回复了你的帖子
+                {elseif condition="$message['object_type']==1"}
+                  回复了你的留言
+                {else /}
+                  赞了你的帖子
+                {/if}
+                <a target="_blank" href="{$message['post_url']}">
+                <cite>{$message['post_title']}</cite>
+              </a>
+              {if condition="!empty($message['reply_content'])"}
+              <div style="padding-left:5px">
+                {$message['reply_content']}
+              </div>
+              {/if}
+            </blockquote>
+            <p><span>{$message['create_time']}</span><a href="javascript:void(0);" class="layui-btn layui-btn-small layui-btn-danger fly-delete">删除</a></p>
+          </li>
+          {/foreach}
+        </ul>
+        {/if}
+      </div>
+	  </div>
+	</div>
+
+</div>
+{include file='common/footer' modeName='user'}

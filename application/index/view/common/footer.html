@@ -1,0 +1,26 @@
+<div class="fly-footer">
+    <p><a href="javascript:void(0)">基于Fly社区模板以及thinkPHP5.0</a> 2018 &copy; <a href="https://www.github.com/uuk020" target="_blank">Wythehuang 出品</a></p>
+    <p>
+        <a href="http://www.layui.com/template/fly/" target="_blank">获取Fly社区模版</a>
+        <a href="http://www.thinkphp.cn" target="_blank">thinkPHP5.0框架</a>
+    </p>
+</div>
+
+<script src="__LAYUI__/layui.js"></script>
+<script>
+    layui.cache.page = '[modeName]';
+    layui.cache.user = {
+        username: '{$Request.session.user.nickname|default="游客"}'
+        ,uid: {$Request.session.user.id|default="-1"}
+        ,avatar: '{$Request.session.user.avatar}'
+        ,experience: {$Request.session.user.experience|default="-1"}
+    };
+    layui.config({
+        version: "3.0.0"
+        ,base: '/static/mods/'
+    }).extend({
+        fly: 'index'
+    }).use('fly');
+</script>
+</body>
+</html>
