@@ -1,2 +1,4 @@
 public/static/* linguist-vendored
 public/admin/* linguist-vendored
+application/index/view/*.html linguist-vendored
+application/admin/view/*.html linguist-vendored
