@@ -8,6 +8,8 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
-\think\Route::get('', '', [], []);
-
+use think\Route;
+Route::rule('login', 'index/User/login', 'POST|GET');
+Route::rule('register', 'index/User/register', 'POST|GET');
+Route::rule('user/set', 'index/User/set', 'POST|GET');
+Route::rule('user/:uid', 'index/User/home', 'POST|GET');

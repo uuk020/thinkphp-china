@@ -34,11 +34,11 @@
                     <img src="{$Request.session.user.avatar}">
                   </a>
                   <dl class="layui-nav-child">
-                    <dd><a href="{:url('User/set')}"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
-                    <dd><a href="{:url('User/message')}"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd>
-                    <dd><a href="{:url('User/home')}"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
+                    <dd><a href="{:url('index/User/set')}"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
+                    <dd><a href="{:url('index/User/message')}"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd>
+                    <dd><a href="{:url('index/User/home')}"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
                     <hr style="margin: 5px 0;">
-                    <dd><a href="{:url('User/logout')}" style="text-align: center;">退出</a></dd>
+                    <dd><a href="{:url('index/User/logout')}" style="text-align: center;">退出</a></dd>
                   </dl>
                 </li>
                 {else /}
@@ -47,10 +47,10 @@
                     <a class="iconfont icon-touxiang layui-hide-xs" href="../user/login.html"></a>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="{:url('User/login')}">登录</a>
+                    <a href="{:url('index/User/login')}">登录</a>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="{:url('User/register')}">注册</a>
+                    <a href="{:url('index/User/register')}">注册</a>
                 </li>
                 <li class="layui-nav-item layui-hide-xs">
                     <a href="" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
