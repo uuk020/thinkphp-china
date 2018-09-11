@@ -9,7 +9,10 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 use think\Route;
-Route::rule('login', 'index/User/login', 'POST|GET');
-Route::rule('register', 'index/User/register', 'POST|GET');
-Route::rule('user/set', 'index/User/set', 'POST|GET');
-Route::rule('user/:uid', 'index/User/home', 'POST|GET');
+Route::rule('login', 'index/user/login', 'POST|GET');
+Route::rule('register', 'index/user/register', 'POST|GET');
+Route::rule('logout', 'index/user/logout');
+Route::rule('user', 'index/user/index');
+Route::rule('user/set', 'index/user/set');
+Route::rule('user/:uid', 'index/user/home');
+Route::rule('user/message', 'index/user/message');
