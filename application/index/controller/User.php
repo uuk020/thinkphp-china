@@ -247,7 +247,7 @@ class User extends Base
             $user = new UserModel();
             $result = $user->resPassword($id, $passwordInfo);
             if ($result[0]) {
-                $this->_responseData = ['status' => 0, 'msg' => $result[1], 'action' => url('User/set')];
+                $this->_responseData = ['status' => 0, 'msg' => $result[1], 'action' => url('index/User/set')];
             } else {
                 $this->_responseData = ['status' => -1, 'msg' => $result[1]];
             }
