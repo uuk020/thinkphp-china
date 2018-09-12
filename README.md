@@ -25,6 +25,7 @@
 
 <h2>使用说明</h2>
 <ul>
+    <li>该项目支持PHP5.6以上和MySQL5.7</li>
     <li>请将项目内的所有文件直接放在根目录下；不要多层目录；例如正确：www/;错误：www/thinkbjy/</li>
     <li>管理员登录账号和密码默认为admin/123456</li>
     <li>配置在application/config-user.php, 需要修改成application/config.php</li>
@@ -33,11 +34,12 @@
 
 <h2>未来计划</h2>
 <ul>
+    <li>路由注册</li>
+    <li>安装论坛功能</li>
+    <li>缓存Redis</li>
     <li>第三方登录: QQ, 微博</li>
     <li>手机验证短信</li>
     <li>论坛搜索帖子和用户</li>
-    <li>路由注册</li>
-    <li>安装论坛功能</li>
 </ul>
 
 <h2>开源协议</h2>
