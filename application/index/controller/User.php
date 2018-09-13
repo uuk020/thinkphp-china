@@ -31,7 +31,7 @@ class User extends Base
     public function register()
     {
         if (session('?user')) {
-            $this->success('你已经登录过了', 'Index/index');
+            $this->success('你已经登录过了', 'index/index/index');
         }
         if ($this->request->isPost()) {
             $data = $this->request->post();
@@ -64,9 +64,9 @@ class User extends Base
         $time = time();
         $result = $user->checkEmailToken($flag, $token, $time);
         if (!$result[0]) {
-            $this->error($result[1], 'User/set');
+            $this->error($result[1], 'index/user/set');
         }
-        $this->success($result[1], 'Index/index');
+        $this->success($result[1], 'index/index/index');
     }
 
     /**
@@ -80,14 +80,14 @@ class User extends Base
     public function login()
     {
         if (session('?user')) {
-            $this->success('你已经登录过了', 'Index/index');
+            $this->success('你已经登录过了', 'index/index/index');
         }
         if ($this->request->isPost()) {
             $login = $this->request->post();
             $user = new UserModel();
             $result = $user->login($login);
             if ($result[0]) {
-                $this->_responseData = ['status' => 0, 'msg' => $result[1], 'action' => url('Index/index')];
+                $this->_responseData = ['status' => 0, 'msg' => $result[1], 'action' => url('index/index/index')];
             } else {
                 $this->_responseData = ['status' => 1, 'msg' => $result[1]];
             }
@@ -103,7 +103,7 @@ class User extends Base
     {
         session('user', null);
         cookie('userToken', null);
-        $this->success('退出成功', 'Index/index');
+        $this->success('退出成功', 'index/index/index');
     }
 
     /**
@@ -116,7 +116,7 @@ class User extends Base
     public function index()
     {
         if (!session('?user')) {
-            $this->error('请登录账号', 'User/login');
+            $this->error('请登录账号', 'index/user/login');
         }
         $userId = session('user.id');
         try {
@@ -172,7 +172,7 @@ class User extends Base
     public function set()
     {
         if (!session('?user')) {
-            $this->error('请登录', 'login');
+            $this->error('请登录', 'index/user/login');
         }
         $id = session('user.id');
         $user = UserModel::get($id, 'info');
@@ -180,9 +180,9 @@ class User extends Base
             $info = $this->request->post();
             $result = UserModel::setInfo($id, $info);
             if ($result[0]) {
-                $this->_responseData = ['status' => 0, 'msg' => $result[1], 'action' => url('Index/index')];
+                $this->_responseData = ['status' => 0, 'msg' => $result[1], 'action' => url('index/index/index')];
             } else {
-                $this->_responseData = ['status' => 0, 'msg' => $result[1], 'action' => url('User/set')];
+                $this->_responseData = ['status' => 0, 'msg' => $result[1], 'action' => url('index/user/set')];
             }
             return json($this->_responseData);
         }
@@ -204,7 +204,7 @@ class User extends Base
     public function upload()
     {
         if (!session('user')) {
-            $this->error('你没有登录', 'User/login');
+            $this->error('你没有登录', 'index/User/login');
         }
         $id = session('user.id');
         $this->_responseData = ['status' => 0, 'msg' => '上传头像成功'];
@@ -247,7 +247,7 @@ class User extends Base
             $user = new UserModel();
             $result = $user->resPassword($id, $passwordInfo);
             if ($result[0]) {
-                $this->_responseData = ['status' => 0, 'msg' => $result[1], 'action' => url('index/User/set')];
+                $this->_responseData = ['status' => 0, 'msg' => $result[1], 'action' => url('index/user/set')];
             } else {
                 $this->_responseData = ['status' => -1, 'msg' => $result[1]];
             }
@@ -282,7 +282,7 @@ class User extends Base
     public function activate()
     {
         if (!session('?user')) {
-            $this->error('你没有登录', 'User/login');
+            $this->error('你没有登录', 'index/user/login');
         }
         $id = session('user.id');
         try {
@@ -327,7 +327,7 @@ class User extends Base
         ];
         try {
             $user->info->save($updateInfo);
-            regMail($userInfo['email'], $userInfo['username'], url('User/active', "flag={$flag}&token={$token}", 'html', true));
+            regMail($userInfo['email'], $userInfo['username'], url('index/user/active', "flag={$flag}&token={$token}", 'html', true));
         } catch (\Exception $e) {
             $this->_responseData = ['status' => 1, 'msg' => '邮件发送错误'];
         }
@@ -345,9 +345,9 @@ class User extends Base
             $user = new UserModel();
             $result = $user->forgetPassword($userInputFrom);
             if ($result[0]) {
-                $this->_responseData = ['status' => 0, 'msg' => $result[1], 'action' => url('User/login')];
+                $this->_responseData = ['status' => 0, 'msg' => $result[1], 'action' => url('index/user/login')];
             } else {
-                $this->_responseData = ['status' => 0, 'msg' => $result[1], 'action' => url('User/forget')];
+                $this->_responseData = ['status' => 0, 'msg' => $result[1], 'action' => url('index/user/forget')];
             }
             return json($this->_responseData);
         }
@@ -379,7 +379,7 @@ class User extends Base
             if ($this->request->isPost()) {
                 $userInput = $this->request->post();
                 $setToken = '';
-                $this->_responseData = ['status' => 0, 'msg' => '修改密码成功', 'action' => url('User/login')];
+                $this->_responseData = ['status' => 0, 'msg' => '修改密码成功', 'action' => url('index/user/login')];
                 if ($userInput['pass'] !== $userInput['repass']) {
                     $this->_responseData = ['status' => 0, 'msg' => '两次密码不正确'];
                 }
@@ -391,7 +391,7 @@ class User extends Base
                 return json($this->_responseData);
             }
         } catch (Exception $exception) {
-            $this->error('数据库异常', 'User/login');
+            $this->error('数据库异常', 'index/user/login');
         }
         $this->assign('username', $username);
         return $this->fetch();

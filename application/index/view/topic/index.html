@@ -6,7 +6,7 @@
       {foreach name='$category' item='cat'}
       {foreach name='$cat' item='vo'}
       <li>
-        <a href='{:url("Topic/category", "id=$key")}'>{$vo}</a>
+        <a href='{:url("index/topic/category", "id=$key")}'>{$vo}</a>
         {if condition="$key == 1"}
         <span class="layui-badge-dot"></span>
         {/if}
@@ -23,10 +23,10 @@
 
     <div class="fly-column-right layui-hide-xs">
       <span class="fly-search"><i class="layui-icon"></i></span>
-      <a href="{:url('Topic/add')}" class="layui-btn">发表新帖</a>
+      <a href="{:url('index/topic/add')}" class="layui-btn">发表新帖</a>
     </div>
     <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;">
-      <a href="{:url('Topic/add')}" class="layui-btn">发表新帖</a>
+      <a href="{:url('index/topic/add')}" class="layui-btn">发表新帖</a>
     </div>
   </div>
 </div>
@@ -37,13 +37,13 @@
       <div class="fly-panel" style="margin-bottom: 0;">
 
         <div class="fly-panel-title fly-filter">
-          <a href="{:url('Topic/index', 'filter=all')}" class="{$Request.param.filter == 'all' ? 'layui-this' : ''}">最新时间</a>
+          <a href="{:url('index/Topic/index', 'filter=all')}" class="{$Request.param.filter == 'all' ? 'layui-this' : ''}">最新时间</a>
           <span class="fly-mid"></span>
-          <a href="{:url('Topic/index', 'filter=likes')}" class="{$Request.param.filter == 'likes' ? 'layui-this' : ''}">点赞最多</a>
+          <a href="{:url('index/Topic/index', 'filter=likes')}" class="{$Request.param.filter == 'likes' ? 'layui-this' : ''}">点赞最多</a>
           <span class="fly-mid"></span>
-          <a href="{:url('Topic/index', 'filter=reply')}" class="{$Request.param.filter == 'reply' ? 'layui-this' : ''}">回复最多</a>
+          <a href="{:url('index/Topic/index', 'filter=reply')}" class="{$Request.param.filter == 'reply' ? 'layui-this' : ''}">回复最多</a>
           <span class="fly-mid"></span>
-          <a href="{:url('Topic/index', 'filter=unanswered')}" class="{$Request.param.filter == 'unanswered' ? 'layui-this' : ''}">零回复</a>
+          <a href="{:url('index/Topic/index', 'filter=unanswered')}" class="{$Request.param.filter == 'unanswered' ? 'layui-this' : ''}">零回复</a>
         </div>
 
         {if condition='is_array($posts) && !empty($posts)'}
@@ -82,9 +82,9 @@
             <span class="layui-disabled">首页</span>
             {else/}
               {if condition="!empty($Request.param.filter)"}
-              <a href='{:url("Topic/index", "page=1&filter=$filter")}'>首页</a>
+              <a href='{:url("index/topic/index", "page=1&filter=$filter")}'>首页</a>
               {else/}
-              <a href="{:url('Topic/index', 'page=1')}">首页</a>
+              <a href="{:url('index/topic/index', 'page=1')}">首页</a>
               {/if}
             {/if}
             {foreach name='showMenus' item='showMenu'}
@@ -92,17 +92,17 @@
             <span class="laypage-curr">{$page}</span>
             {else/}
             {if condition="!empty($Request.param.filter)"}
-            <a href='{:url("Topic/index", "page=$showMenu&filter=$filter")}'>{$showMenu}</a>
+            <a href='{:url("index/topic/index", "page=$showMenu&filter=$filter")}'>{$showMenu}</a>
             {else/}
-            <a href='{:url("Topic/index", "page=$showMenu")}'>{$showMenu}</a>
+            <a href='{:url("index/topic/index", "page=$showMenu")}'>{$showMenu}</a>
             {/if}
             {/if}
             {/foreach}
             {if condition="$page < $pageNum"}
             {if condition="!empty($Request.param.filter)"}
-            <a href='{:url("Topic/index", "page=$pageNum&filter=$filter")}' class="laypage-last" title="尾页">尾页</a>
+            <a href='{:url("index/topic/index", "page=$pageNum&filter=$filter")}' class="laypage-last" title="尾页">尾页</a>
             {else/}
-            <a href='{:url("Topic/index", "page=$pageNum")}' class="laypage-last" title="尾页">尾页</a>
+            <a href='{:url("index/topic/index", "page=$pageNum")}' class="laypage-last" title="尾页">尾页</a>
             {/if}
             {else/}
             <span class="layui-disabled">尾页</span>

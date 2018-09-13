@@ -275,7 +275,7 @@ class User extends Model
                 $userEmailInfo = $userEmail->toArray();
                 $flag           =  encode($userEmailInfo['username'], config('Mail.key'));
                 $token          =  randomStr($userEmailInfo, 5);
-                $setPasswordUrl = url('User/setPassword', "flag={$flag}&token={$token}", true, true);
+                $setPasswordUrl = url('index/user/setPassword', "flag={$flag}&token={$token}", true, true);
                 $result         = forgetEmail($userEmailInfo['email'], $userEmailInfo['nickname'], $setPasswordUrl);
                 if (!$result[0]) {
                     return [false, '邮件服务出了问题'];

@@ -41,8 +41,8 @@ class Post extends Model
             }
             foreach ($postInfo as &$value) {
                 $value['catName'] = getCategoryNames($value['category_id']);
-                $value['url'] = url('Topic/detail', "id={$value['id']}");
-                $value['homepage'] = url('User/home', "uid={$value['user']['id']}");
+                $value['url'] = url('index/topic/detail', "id={$value['id']}");
+                $value['homepage'] = url('index/user/home', "uid={$value['user']['id']}");
             }
             unset($value);
             return $postInfo;
@@ -78,8 +78,8 @@ class Post extends Model
             }
             foreach ($categoryPosts as &$categoryPost) {
                 $categoryPost['catName'] = getCategoryNames($categoryPost['category_id']);
-                $categoryPost['url'] = url('Topic/detail', "id={$categoryPost['id']}");
-                $categoryPost['homepage'] = url('User/home', "uid={$categoryPost['user']['id']}");
+                $categoryPost['url'] = url('index/topic/detail', "id={$categoryPost['id']}");
+                $categoryPost['homepage'] = url('index/user/home', "uid={$categoryPost['user']['id']}");
             }
             unset($categoryPost);
             return $categoryPosts;
@@ -164,8 +164,8 @@ class Post extends Model
             }
             foreach ($posts as &$post) {
                 $post['catName'] = $this->getPostCategory($post['category_id']);
-                $post['url'] = url('Topic/detail', "id={$post['id']}");
-                $post['homepage'] = url('User/home', "uid={$post['user']['id']}");
+                $post['url'] = url('index/topic/detail', "id={$post['id']}");
+                $post['homepage'] = url('index/user/home', "uid={$post['user']['id']}");
             }
             unset($post);
             return $posts;
@@ -203,7 +203,7 @@ class Post extends Model
                 $adminPosts[] = $adminObject->toArray();
             }
             foreach ($adminPosts as &$adminPost) {
-                $adminPost['url'] = url('Topic/detail', "id={$adminPost['id']}");
+                $adminPost['url'] = url('index/topic/detail', "id={$adminPost['id']}");
             }
             unset($adminPost);
             return $adminPosts;
@@ -233,8 +233,8 @@ class Post extends Model
                 $userPosts[] = $userPost->toArray();
             }
             foreach ($userPosts as &$post) {
-                $post['url'] = url('Topic/detail', "id={$post['id']}", 'html', true);
-                $post['edit'] = url('Topic/edit', "id={$post['id']}", 'html', true);
+                $post['url'] = url('index/topic/detail', "id={$post['id']}", 'html', true);
+                $post['edit'] = url('index/topic/edit', "id={$post['id']}", 'html', true);
             }
             unset($post);
         } catch (\Exception $exception) {
@@ -262,7 +262,7 @@ class Post extends Model
                 $hotPosts[] = $item->toArray();
             }
             foreach ($hotPosts as &$post) {
-                $post['url'] = url('Topic/detail', "id={$post['id']}");
+                $post['url'] = url('index/topic/detail', "id={$post['id']}");
             }
             unset($post);
         } catch (\Exception $exception) {

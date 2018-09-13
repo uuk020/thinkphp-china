@@ -211,11 +211,11 @@ class Topic extends Controller
         try {
             $getPost        = PostModel::get($postId, 'user');
             if (empty($getPost)) {
-                $this->error('此帖子不存在', 'Topic/index');
+                $this->error('此帖子不存在', 'index/topic/index');
             }
             $post           = $getPost->toArray();
-            $postEdit       = url('Topic/edit', "id={$postId}");
-            $authorHomepage = url('User/home', "uid={$post['user']['id']}");
+            $postEdit       = url('index/topic/edit', "id={$postId}");
+            $authorHomepage = url('index/user/home', "uid={$post['user']['id']}");
             $hotPosts       = PostModel::getHotPosts();
             $replyArr       = ReplyModel::getReplies($postId);
             $postLikeCount  = LikeModel::where('post_id', $postId)->where('flag', 0)->count();
@@ -237,7 +237,7 @@ class Topic extends Controller
             ]);
 
         } catch (\Exception $e) {
-            $this->error('操作失败,请重新尝试', url('Topic/index'));
+            $this->error('操作失败,请重新尝试', url('index/topic/index'));
         }
         return $this->fetch();
     }
@@ -256,11 +256,11 @@ class Topic extends Controller
         try {
             $getPost = PostModel::get($postId, 'user');
             if (empty($getPost)) {
-                $this->error('此帖子不存在', 'Index/index');
+                $this->error('此帖子不存在', 'index/index/index');
             }
             $post = $getPost->toArray();
             if ($post['user_id'] !== $userId && $userId !== self::ADMIN_ID) {
-                $this->error('你没有权限修改帖子', 'Topic/index');
+                $this->error('你没有权限修改帖子', 'index/topic/index');
             }
             if ($this->request->post()) {
                 $userInput = $this->request->post();
@@ -277,7 +277,7 @@ class Topic extends Controller
                 'catName'  => getCategoryNames($post['category_id']),
             ]);
         } catch (\Exception $e) {
-            $this->error('操作失败,请重新尝试', url('Topic/index'));
+            $this->error('操作失败,请重新尝试', url('index/topic/index'));
         }
         return $this->fetch();
     }
