@@ -63,7 +63,7 @@ class Topic extends Controller
         return $this->fetch();
     }
 
-    public function category($id = '', $page = 1, $filter = 'all')
+    public function category($id, $page = 1, $filter = 'all')
     {
         try {
             $page          = (int)$page;
