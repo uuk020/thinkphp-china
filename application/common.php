@@ -141,3 +141,21 @@ function getCategoryNames($id) {
     }
     return [];
 }
+
+/**
+ * 获取分类ID
+ *
+ * @param string $name 分类名称
+ *
+ * @return int
+ */
+function getCategoryId($name)
+{
+    $category = config('category');
+    foreach ($category as $key => $cat) {
+        foreach ($cat as $catID => $categoryName) {
+            if ($categoryName == $name) return $catID;
+        }
+    }
+    return -1;
+}
