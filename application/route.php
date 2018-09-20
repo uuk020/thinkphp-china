@@ -27,3 +27,4 @@ Route::rule('user/reset/:flag/:token', 'index/user/setPassword');
 Route::get('topics', 'index/topic/index', [], []);
 Route::rule('articles/create', 'index/topic/add', 'GET|POST');
 Route::get('articles/:id', 'index/topic/detail');
+Route::get('category/:name/[:page]/[:filter]', 'index/topic/category', [], []);

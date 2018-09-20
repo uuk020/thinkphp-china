@@ -262,7 +262,7 @@ return [
         '编程技术' => [
             1 => 'PHP',
             2 => 'MySQL',
-            3 => 'Thinkphp 5',
+            3 => 'Thinkphp',
             4 => 'Laravel',
             5 => 'Linux',
             6 => '前端相关'
