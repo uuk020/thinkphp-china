@@ -6,7 +6,7 @@
       {foreach name='$category' item='cat'}
       {foreach name='$cat' item='vo'}
       <li>
-        <a href='{:url("index/topic/category", "id=$key")}'>{$vo}</a>
+        <a href='{:url("index/topic/category", "name=$vo")}'>{$vo}</a>
         {if condition="$key == 1"}
         <span class="layui-badge-dot"></span>
         {/if}

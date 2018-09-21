@@ -67,7 +67,6 @@ class Topic extends Controller
     {
         try {
             $id            = getCategoryId($name);
-            dump($id);
             $page          = (int)$page;
             $nav           = PostModel::getCategoryNav($page, $id);
             $categoryPosts = $this->hasFilterCategoryPosts($filter, $page, $id);
