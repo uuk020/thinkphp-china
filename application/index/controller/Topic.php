@@ -167,7 +167,7 @@ class Topic extends Controller
     public function add()
     {
         if (!session('?user')) {
-            $this->error('请登录后才能发帖','User/login');
+            $this->error('请登录后才能发帖','index/user/login');
         }
         if ($this->request->isPost()) {
             $postData = $this->request->post();
@@ -221,6 +221,7 @@ class Topic extends Controller
             $replyArr       = ReplyModel::getReplies($postId);
             $postLikeCount  = LikeModel::where('post_id', $postId)->where('flag', 0)->count();
             $postReplyCount = ReplyModel::where('post_id', $postId)->count();
+            $experience     = Experience::getUserExperience($post['user']['id']);
             if (is_array($replyArr) && !empty($replyArr)) {
                 $replyInfo = $replyArr;
             } else {
@@ -235,6 +236,7 @@ class Topic extends Controller
                 'likeCount'      => $postLikeCount,
                 'replyCount'     => $postReplyCount,
                 'replyInfo'      => $replyInfo,
+                'experience'     => $experience,
             ]);
 
         } catch (\Exception $e) {

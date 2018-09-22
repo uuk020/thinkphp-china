@@ -36,7 +36,7 @@ class Message extends Model
             }
             foreach ($msgView as &$msg) {
                 $msg['commenter'] = User::where('id', $msg['user_id'])->value('nickname');
-                $msg['post_url']  = url('Topic/detail', "id={$msg['post_id']}", true, true);
+                $msg['post_url']  = url('index/topic/detail', "id={$msg['post_id']}", true, true);
             }
             unset($msg);
         } catch (\Exception $e) {

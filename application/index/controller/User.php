@@ -8,7 +8,7 @@ use app\index\model\User       as UserModel;
 use app\index\model\Reply      as ReplyModel;
 use app\index\model\Message    as MessageModel;
 use app\index\model\Collection as CollectionModel;
-
+use app\index\model\Experience as ExperienceModel;
 /**
  * 用户控制器
  *
@@ -150,10 +150,12 @@ class User extends Base
             $userInfo   = UserModel::get([ 'id' => $uid], 'info')->toArray();
             $userPosts  = is_array(PostModel::userPosts($uid)) ? PostModel::userPosts($uid) : '';
             $userRelies = is_array(ReplyModel::userRelies($uid)) ? ReplyModel::userRelies($uid) : '';
+            $experience = ExperienceModel::getUserExperience($uid);
             $this->assign([
                 'userInfo'   => $userInfo,
                 'userPosts'  => $userPosts,
                 'userRelies' => $userRelies,
+                'experience' => $experience,
             ]);
         } catch (Exception $exception) {
             throw $exception;
@@ -204,7 +206,7 @@ class User extends Base
     public function upload()
     {
         if (!session('user')) {
-            $this->error('你没有登录', 'index/User/login');
+            $this->error('你没有登录', 'index/user/login');
         }
         $id = session('user.id');
         $this->_responseData = ['status' => 0, 'msg' => '上传头像成功'];
@@ -239,7 +241,7 @@ class User extends Base
     public function password()
     {
         if (!session('?user')) {
-            $this->error('你没有登录', 'User/login');
+            $this->error('你没有登录', 'index/user/login');
         }
         $id = session('user.id');
         if ($this->request->post()) {
@@ -370,10 +372,10 @@ class User extends Base
             $userToArray = $user->toArray();
             if ($this->request->isGet()) {
                 if (strtotime($userToArray['info']['update_time']) <= time()) {
-                    $this->error('激活码已过期', 'User/login');
+                    $this->error('激活码已过期', 'index/user/login');
                 }
                 if ($userToArray['info']['email_token'] !== $token) {
-                    $this->error('激活码不正确', 'User/login');
+                    $this->error('激活码不正确', 'index/user/login');
                 }
             }
             if ($this->request->isPost()) {

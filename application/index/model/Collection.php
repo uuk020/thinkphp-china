@@ -57,7 +57,7 @@ class Collection extends Model
                 }
                 foreach ($collections as &$collection) {
                     $collection['post_title'] = $postModel->getPostTitle($collection['post_id']);
-                    $collection['url']   = url('Topic/detail', "id={$collection['post_id']}");
+                    $collection['url']   = url('index/topic/detail', "id={$collection['post_id']}");
                     unset($collection);
                 }
                 return $collections;

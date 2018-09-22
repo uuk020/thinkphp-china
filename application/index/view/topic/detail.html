@@ -59,7 +59,7 @@
             <span>{$post['user']['create_time']}</span>
           </div>
           <div class="detail-hits" id="LAY_jieAdmin" data-id="{$post['user']['id']}">
-            <span style="padding-right: 10px; color: #FF7200">积分: 100</span>
+            <span style="padding-right: 10px; color: #FF7200">积分: {$experience}</span>
             {if condition="$post.user_id==$Request.session.user.id OR $Request.session.user.id == 1"}
             <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a href="{$postEdit}">编辑此贴</a></span>
             {/if}
@@ -125,7 +125,7 @@
           {/if}
         </ul>
         <div class="layui-form layui-form-pane">
-          <form action="{:url('Reply/newReply')}" method="post">
+          <form action="{:url('index/reply/newReply')}" method="post">
             <div class="layui-form-item layui-form-text">
               <a name="comment"></a>
               <div class="layui-input-block">

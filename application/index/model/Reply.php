@@ -42,10 +42,10 @@ class Reply extends Model
             $userId = $user['id'];
             // 防止未登录的人回复帖子
             if (!isset($userId) && empty($userId)) {
-                return json(['status' => 0, 'msg'=>'回复失败, 请登录账号', 'action' => url("User/login")]);
+                return json(['status' => 0, 'msg'=>'回复失败, 请登录账号', 'action' => url("index/user/login")]);
             }
             if (session('user.email_status') !== 1) {
-                return json(['status' => 0, 'msg' => '邮箱未验证', 'action' => url('Topic/detail', "id={$param['post_id']}")]);
+                return json(['status' => 0, 'msg' => '邮箱未验证', 'action' => url('index/topic/detail', "id={$param['post_id']}")]);
             }
             $postId       = intval($param['post_id']);
             $replyId      = intval($param['reply_id']);
@@ -79,7 +79,7 @@ class Reply extends Model
                     'reply_content' => $replyContent,
                 ]);
                 $this->commit();
-                return json(['status' => 0, 'msg' => '回复成功', 'action' => url('Topic/detail', "id={$postId}")]);
+                return json(['status' => 0, 'msg' => '回复成功', 'action' => url('index/topic/detail', "id={$postId}")]);
             }
         } catch (\Exception $e) {
             $this->rollback();
@@ -107,7 +107,7 @@ class Reply extends Model
                     $replyInfo[] = $value->toArray();
                 }
                 foreach($replyInfo as &$item) {
-                    $item['homepage'] = url('User/home', "uid={$item['user']['id']}");
+                    $item['homepage'] = url('index/user/home', "uid={$item['user']['id']}");
                 }
                 unset($item);
             }
@@ -137,7 +137,7 @@ class Reply extends Model
                 $userRelies[] = $useRelay->toArray();
             }
             foreach ($userRelies as &$rely) {
-                $rely['post_url'] = url('Topic/detail', "id={$rely['id']}", true, true);
+                $rely['post_url'] = url('index/topic/detail', "id={$rely['id']}", true, true);
             }
             unset($rely);
         } catch (Exception $exception) {
@@ -159,7 +159,7 @@ class Reply extends Model
                     GROUP BY u.id HAVING COUNT(*) >= 20 ORDER BY reply_count DESC LIMIT 12";
             $userComments = $this->query($sql);
             foreach ($userComments as &$userComment) {
-                $userComment['homepage'] = url("User/Home", "uid={$userComment['id']}");
+                $userComment['homepage'] = url("index/user/Home", "uid={$userComment['id']}");
             }
             unset($userComment);
         } catch (\Exception $e) {

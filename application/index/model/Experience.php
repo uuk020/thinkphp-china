@@ -8,6 +8,7 @@
 
 namespace app\index\model;
 
+use think\Exception;
 use think\Model;
 
 class Experience extends Model
@@ -74,6 +75,17 @@ class Experience extends Model
             return true;
         } catch (\Exception $e) {
             return false;
+        }
+    }
+
+    public static function getUserExperience($uid)
+    {
+        try {
+            $userExperience = self::field('experience')->where('uid', $uid)->find();
+            if (empty($userExperience)) return 0;
+            return $userExperience->experience;
+        } catch (Exception $ex) {
+            return -1;
         }
     }
 }
