@@ -34,7 +34,7 @@
 
 <h2>未来计划</h2>
 <ul>
-    <li>路由注册</li>
+    <li style="text-decoration:line-through">路由注册(完成)</li>
     <li>安装论坛功能</li>
     <li>缓存Redis</li>
     <li>第三方登录: QQ, 微博</li>
