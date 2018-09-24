@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--[if IE 9]>
+<html class="ie9 no-focus" lang="zh"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-focus" lang="zh"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <title>ThinkPhpForum - 安装</title>
+
+    <meta name="description" content="">
+    <meta name="author" content="wythehuang">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+
+    <!-- Icons -->
+    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+    <link rel="shortcut icon" href="/static/images/favicon.png">
+    <!-- END Icons -->
+
+    <!-- Stylesheets -->
+    <!-- Bootstrap and OneUI CSS framework -->
+    <link rel="stylesheet" href="/admin/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/install/css/oneui.css">
+    <link rel="stylesheet" href="/install/css/install.css">
+    <link rel="stylesheet" href="/install/css/index.css">
+    <!-- END Stylesheets -->
+</head>
+<body>
+<div class="bg-image" style="background-image: url('/install/img/bg.jpg');"></div>
+{block name="progress"}{/block}
+<!-- Install Content -->
+<div class="content overflow-hidden install-page">
+    <!-- Install Block -->
+    <div class="block block-themed box">
+        {block name="content"}{/block}
+    </div>
+    <!-- END Install Block -->
+</div>
+<!-- END Install Content -->
+
+<!-- Install Footer -->
+<div class="push-10-t push-10 text-center animated fadeInUp">
+    <small class="text-white-op font-w600">2018-2019 &copy; ThinkPhpForum</small>
+</div>
+<!-- END Install Footer -->
+<!-- Pop Out Modal -->
+<div class="modal fade" id="modal-popout" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-popout">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent remove-margin-b">
+                <div class="block-header bg-primary-dark" style="background: #0099ff">
+                    <ul class="block-options">
+                        <li>
+                            <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                        </li>
+                    </ul>
+                    <h3 class="block-title">用户协议</h3>
+                </div>
+                <div class="block-content">
+                    <h2>ThinkPhpForum 用户协议</h2>
+                    <p>版权所有 (c) 2018~2019, Wythehuang保留所有权利.</p>
+                    <p>感谢您选择ThinkPhpForum, 此项目为个人开发. 个人精力有限, 可能会有许多不足, 但还是希望能够帮助您学习和理解Thinkphp5.0 </p>
+                    <p>用户须知：本项目遵循Apache 2 协议, 请严格遵守Apache 2协议. 想了解Apache 2协议具体内容请点击此链接<a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License 2.0</a></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-default" type="button" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END Pop Out Modal -->
+<script src="/admin/js/jquery.min.js"></script>
+<script src="/admin/js/bootstrap.min.js"></script>
+<script src="/install/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="/install/js/index.js"></script>
+<script>
+    jQuery(function () {
+        jQuery('#agreement').change(function () {
+            jQuery('#next').prop('disabled', !$('#agreement').prop('checked'));
+        });
+        jQuery('#next').click(function () {
+            location.href = '{$Request.baseFile}?s=/index/step2.html';
+        });
+    });
+</script>
+</body>
+</html>
