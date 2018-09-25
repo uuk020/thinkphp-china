@@ -55,7 +55,8 @@ class Index extends Controller
 
     public function stepTwo()
     {
-       return $this->fetch();
+        echo checkMySQLVersion();
+       //return $this->fetch();
     }
 
     public function reset()

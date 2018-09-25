@@ -1,0 +1,33 @@
+{extend name="layout" /}
+{block name="progress"}
+<div class="progress active progress-mini">
+    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"></div>
+</div>
+{/block}
+{block name="content"}
+<div class="box-content step2">
+    <div class="title">
+        <img src="/install/img/title1.png" alt="">
+    </div>
+    <div class="option">MySQL 账号和密码</div>
+    <br>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="userName" class="col-sm-2 control-label">数据库账号</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" id="userName" placeholder="Username" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-sm-2 control-label">数据库密码</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="password" placeholder="Password" required>
+            </div>
+        </div>
+    </form>
+    <div class="button">
+        <a href="{$Request.baseFile}" class="btn btn-minw btn-default">上一步</a>
+        <a href="{$Request.baseFile}?s=/index/step3.html" class="btn btn-minw btn-default ajax-get">下一步</a>
+    </div>
+</div>
+{/block}
