@@ -49,14 +49,29 @@ class Index extends Controller
 
     public function stepOne()
     {
-        
+        if ($this->request->isPost()) {
+            $databaseUserConfig = [
+                'username' => $this->request->post('username'),
+                'password' => $this->request->param('password'),
+            ];
+            $resetPassword = $this->request->param('resetPassword');
+            if (strlen($resetPassword) <= 6) {
+                return json(['status' => 0, 'message' => '重置密码过短'], 400);
+            }
+            $installUserConfig = ['reset_password' => password_hash($resetPassword, PASSWORD_DEFAULT)];
+            $getDatabaseConfig = APP_PATH . 'database-user.php';
+            $getInstallConfig = APP_PATH . 'install' . DS . 'config.php';
+            if (setConfig($getDatabaseConfig, $databaseUserConfig) && setConfig($getInstallConfig, $installUserConfig)) {
+                return json(['status' => 1, 'message' => '设置成功']);
+            }
+            return json(['status' => 0, 'message' => '设置失败']);
+        }
         return $this->fetch();
     }
 
     public function stepTwo()
     {
-        echo checkMySQLVersion();
-       //return $this->fetch();
+        return $this->fetch();
     }
 
     public function reset()

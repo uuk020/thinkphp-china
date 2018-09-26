@@ -7,27 +7,33 @@
 {block name="content"}
 <div class="box-content step2">
     <div class="title">
-        <img src="/install/img/title1.png" alt="">
+        <img src="/install/img/title.png" alt="">
     </div>
-    <div class="option">MySQL 账号和密码</div>
+    <div class="option">相关设置</div>
     <br>
-    <form class="form-horizontal">
+    <div class="form-horizontal">
         <div class="form-group">
             <label for="userName" class="col-sm-2 control-label">数据库账号</label>
             <div class="col-sm-10">
-                <input type="email" class="form-control" id="userName" placeholder="Username" required>
+                <input type="username" class="form-control" id="userName" placeholder="账号">
             </div>
         </div>
         <div class="form-group">
             <label for="password" class="col-sm-2 control-label">数据库密码</label>
             <div class="col-sm-10">
-                <input type="password" class="form-control" id="password" placeholder="Password" required>
+                <input type="password" class="form-control" id="password" placeholder="密码">
             </div>
         </div>
-    </form>
-    <div class="button">
-        <a href="{$Request.baseFile}" class="btn btn-minw btn-default">上一步</a>
-        <a href="{$Request.baseFile}?s=/index/step3.html" class="btn btn-minw btn-default ajax-get">下一步</a>
+        <div class="form-group">
+            <label for="resetPassword" class="col-sm-2 control-label">重置密码(重装须填)</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="resetPassword" placeholder="重置密码">
+            </div>
+        </div>
+        <div class="button">
+            <a href="{$Request.baseFile}" class="btn btn-minw btn-default">上一步</a>
+            <button class="btn btn-minw btn-default" id="submit">下一步</button>
+        </div>
     </div>
 </div>
 {/block}

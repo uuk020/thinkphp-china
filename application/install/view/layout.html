@@ -83,6 +83,23 @@
         jQuery('#next').click(function () {
             location.href = '/install/index/stepOne';
         });
+        jQuery('#submit').on('click', function () {
+            let username = 'root',
+                password = '111111',
+                resetPassword = '1111111';
+            jQuery.post('/install/index/stepOne', {
+                'username': username,
+                'password': password,
+                'resetPassword': resetPassword,
+            }, function ($res) {
+                if ($res.status == 1) {
+                    location.herf = '/index/index/stepTwo';
+                } else {
+                    window.reload();
+                }
+            });
+            //event.preventDefault();
+        });
     });
 </script>
 </body>

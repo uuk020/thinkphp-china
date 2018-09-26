@@ -17,6 +17,32 @@ function hasInstallFile()
     return false;
 }
 
+/**
+ * 设置配置文件
+ *
+ * @param string $file       配置文件
+ * @param array  $userConfig 用户设置
+ *
+ * @return bool
+ */
+function setConfig($file, $userConfig)
+{
+    if (is_array($userConfig)) {
+        $key = array_keys($userConfig);
+        $value = array_values($userConfig);
+        for ($i = 0; $i < count($key); $i++) {
+            $keys[$i] = '/\'' . $key[$i] . '\'(.*?),/';
+            $replace =  "'". $key[$i]. "'". " => " . "'".$value[$i] ."',";
+        }
+        $configFile = file_get_contents($file);
+        $configFile = preg_replace($keys, $replace, $configFile);
+        file_put_contents($file, $configFile);
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function checkEnv()
 {
     $needEnv = [
