@@ -49,12 +49,16 @@ class Index extends Controller
 
     public function stepOne()
     {
+        if (!in_array(session('step'), [1, 3])) $this->redirect('install/index/index');
         if ($this->request->isPost()) {
+            if (!$this->request->post('username') && !$this->request->post('resetPassword')) {
+                return json(['status' => 0, 'message' => '缺少相应参数']);
+            }
             $databaseUserConfig = [
                 'username' => $this->request->post('username'),
-                'password' => $this->request->param('password'),
+                'password' => $this->request->post('password'),
             ];
-            $resetPassword = $this->request->param('resetPassword');
+            $resetPassword = $this->request->post('resetPassword');
             if (strlen($resetPassword) <= 6) {
                 return json(['status' => 0, 'message' => '重置密码过短'], 400);
             }
@@ -62,6 +66,7 @@ class Index extends Controller
             $getDatabaseConfig = APP_PATH . 'database-user.php';
             $getInstallConfig = APP_PATH . 'install' . DS . 'config.php';
             if (setConfig($getDatabaseConfig, $databaseUserConfig) && setConfig($getInstallConfig, $installUserConfig)) {
+                session('step', 2);
                 return json(['status' => 1, 'message' => '设置成功']);
             }
             return json(['status' => 0, 'message' => '设置失败']);
