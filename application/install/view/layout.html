@@ -83,51 +83,47 @@
         jQuery('#next').click(function () {
             location.href = '/install/index/stepOne';
         });
+        let errorStyle = 'glyphicon glyphicon-warning-sign';
+        function notify(iconStyle, message, type = 'info') {
+            jQuery.notify({
+                    icon: iconStyle,
+                    message: message,
+                },
+                {
+                    type: type,
+                    placement: {
+                        align: 'center',
+                    },
+                    animate: {
+                        enter: 'animated bounceIn',
+                        exit: 'animated bounceOUt'
+                    }
+                });
+        }
         jQuery('#submit').on('click', function () {
             let username = jQuery('#userName').val(),
                 password = jQuery('#password').val(),
                 resetPassword = jQuery('#resetPassword').val();
-            if (username == '' || resetPassword == '') {
-                jQuery.notify({
-                    icon: 'glyphicon glyphicon-warning-sign',
-                    message:"请输入数据库用户名或者重装密码",
-                    },
-                    {
-                    type: 'danger',
-                    placement: {
-                        align: 'center'
-                    },
-                    animate: {
-                        enter: 'animated bounceIn',
-                        exit: 'animated bounceOut'
-                    },
-                });
+            if (username === '' || resetPassword === '') {
+                notify(errorStyle, '请输入数据库用户名或者重置密码', 'danger');
             } else {
+                let passwordPattern = /^.*(?=.{8,12})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/;
+                if (!passwordPattern.test(resetPassword)) {
+                    notify(errorStyle, '密码小于6位或者过于简单, 最好有一个大写字母和特殊符号!');
+                    return false;
+                }
                 jQuery.ajax({
                     type: 'POST',
                     url: '/install/index/stepOne',
                     data: 'username=' + username + '&password=' + password + '&resetPassword=' + resetPassword,
                     success: function (res) {
                         if (res.status == 1) {
-                            location.herf = '/index/index/stepTwo';
+                            location.href = '/install/index/stepTwo';
                         }
                     },
                     error: function (XMLHttpRequest) {
-                        result = JSON.parse(XMLHttpRequest.responseText);
-                        jQuery.notify({
-                            icon: 'glyphicon glyphicon-warning-sign',
-                            message: result.message
-                            },
-                            {
-                            type: 'danger',
-                            placement: {
-                                align: 'center'
-                            },
-                            animate: {
-                                enter: 'animated bounceIn',
-                                exit: 'animated bounceOut'
-                            },
-                        });
+                        let result = JSON.parse(XMLHttpRequest.responseText);
+                        notify(errorStyle, result.message, 'danger');
                     }
                 });
             }
