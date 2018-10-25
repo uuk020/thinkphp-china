@@ -258,3 +258,46 @@ function checkDiskSize()
         return false;
     }
 }
+
+function createTables($db, $prefix = '')
+{
+    $sqlFile = file_get_contents(ROOT_PATH . 'tp_forum.sql');
+    $sqlFile = str_replace("\r", "\n", $sqlFile);
+    $sqlFile = explode(";\n", $sqlFile);
+    // 替换表前缀
+    $sqlFile = str_replace('`tp_', "`{$prefix}", $sqlFile);
+    // 开始安装
+    showProgress('0%');
+    $sqlTotal = config('sql_total') * 5;
+    $i = 1 * 5;
+    foreach ($sqlFile as $sql) {
+        $sql = trim($sql);
+        if (empty($sql)) continue;
+        $msg = (int)($i / $sqlTotal * 100) . '%';
+        if (false !== $db->execute($sql)) {
+            showProgress($msg);
+        } else {
+            showProgress($msg, 'error');
+            session('error', true);
+        }
+        $i++;
+    }
+}
+
+/**
+ * @param string $msg
+ * @param string $class
+ */
+function showMsg($msg, $class = '')
+{
+    echo "<script type=\"text/javascript\">showmsg(\"{$msg}\", \"{$class}\")</script>";
+    flush();
+    ob_flush();
+}
+
+function showProgress($msg, $class = '')
+{
+    echo "<script type=\"text/javascript\">show_progress(\"{$msg}\", \"{$class}\")</script>";
+    flush();
+    ob_flush();
+}

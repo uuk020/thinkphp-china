@@ -54,17 +54,19 @@ class Index extends Controller
      */
     public function stepOne()
     {
-        if (!in_array(session('step'), [1, 3])) $this->redirect('install/index/index');
+        if (!in_array(session('step'), [1, 3], true)) $this->redirect('install/index/index');
         if ($this->request->isPost()) {
             if (!$this->request->post('username') && !$this->request->post('resetPassword')) {
                 return json(['status' => 0, 'message' => '缺少相应参数'], 400);
             }
             $databaseUserConfig = [
-                'username' => $this->request->post('username'),
-                'password' => $this->request->post('password'),
+                'hostname' => $this->request->post('hostname', '127.0.0.1'),
+                'hostport' => $this->request->post('hostport', '3306'),
+                'username' => $this->request->post('username', 'root'),
+                'password' => $this->request->post('password', ''),
             ];
             $resetPassword = $this->request->post('resetPassword');
-            $installUserConfig = ['reset_password' => password_hash($resetPassword, PASSWORD_DEFAULT)];
+            $installUserConfig = ['reset_password' => password_hash($resetPassword, PASSWORD_BCRYPT)];
             $getDatabaseConfig = APP_PATH . 'database.php';
             $getInstallConfig = APP_PATH . 'install' . DS . 'config.php';
             if (setConfig($getDatabaseConfig, $databaseUserConfig) && setConfig($getInstallConfig, $installUserConfig)) {
@@ -89,6 +91,7 @@ class Index extends Controller
         $env = checkEnv();
         $func = checkFunc();
         $files = checkDirOrFile();
+        session('step', 3);
         $this->assign([
             'env' => $env,
             'func' => $func,
@@ -99,9 +102,79 @@ class Index extends Controller
 
     public function stepThree()
     {
-
+        if ($this->request->isAjax()) {
+            if (session('error')) {
+                $this->error('环境检测出现一些问题, 请重新设置环境');
+            } else {
+                $this->success('通过环境检测', 'install/index/stepThree');
+            }
+        }
+        if (session('step') !== 3) $this->redirect('install/index/index');
+        session('error', false);
+        session('step', 4);
+        return $this->fetch();
     }
 
+    /**
+     *
+     * @return mixed
+     * @throws \Exception
+     */
+    public function stepFour()
+    {
+        if ($this->request->isPost()) {
+            $database = $this->request->post('database', '');
+            $prefix = $this->request->post('prefix', '');
+            $cover = $this->request->post('cover', 0);
+            if (empty($database) || empty($prefix)) {
+                $this->error('请填写完整数据库配置');
+            }
+            $databaseConfig = [
+                'database' => $database,
+                'prefix'   => $prefix,
+            ];
+            $getDatabaseConfig = APP_PATH . 'database.php';
+            if (!setConfig($getDatabaseConfig, $databaseConfig)) {
+                $this->error('设置失败');
+            }
+            try {
+                $db = config('database');
+                unset($db['database']);
+                $connect = DB::connect($db);
+                $databaseName = config('database.database');
+                if (!$cover) {
+                    $sql = "SELECT * FROM information_schema.schemata WHERE schema_name = '{$databaseName}'";
+                    $result = $connect->execute($sql);
+                    if ($result) {
+                        $this->error('该数据库已存在, 请更换名称或者覆盖');
+                    }
+                }
+                $sql = "CREATE DATABASE IF NOT EXISTS `{$databaseName}` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci";
+                $connect->execute($sql) || $this->error($connect->getError());
+                unset($connect);
+                $this->success('开始安装', 'install/index/stepFour');
+            } catch (Exception $ex) {
+                $this->error($ex->getMessage());
+            }
+        } else {
+            if (session('step') !== 4) $this->redirect('install/index/index');
+            session('step', 4);
+            return $this->fetch();
+        }
+    }
+
+    public function complete()
+    {
+        if (session('step') !== 4) $this->error('请按照步骤安装系统', url('install/index/stepOne'));
+        if (session('error')) {
+            $this->error('安装出错, 请重新安装!', url('install/index/stepOne'));
+        } else {
+            file_put_contents(ROOT_PATH . 'forum.lock', 'lock install forum');
+            session('step', null);
+            session('error', null);
+        }
+        return $this->fetch();
+    }
     /**
      * 重装系统
      *
@@ -111,7 +184,8 @@ class Index extends Controller
     {
         $password = $this->request->param('password');
         if ($this->request->isPost()) {
-            if (!password_verify(config('password'), $password)) {
+            $hash = config('reset_password');
+            if (!password_verify($password, $hash)) {
                 $this->error('密码不一致');
             }
             try {

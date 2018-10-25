@@ -25,7 +25,7 @@ return [
     // 连接dsn
     'dsn'             => '',
     // 数据库连接参数
-    'params'          => [],
+    'params'          => [PDO::ATTR_CASE => PDO::CASE_LOWER, PDO::ATTR_EMULATE_PREPARES => true,],
     // 数据库编码默认采用utf8
     'charset'         => 'utf8',
     // 数据库表前缀

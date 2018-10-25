@@ -101,7 +101,9 @@
                 });
         }
         jQuery('#submit').on('click', function () {
-            let username = jQuery('#userName').val(),
+            let hostname = jQuery('#hostname').val(),
+                hostport = jQuery('#hostport').val(),
+                username = jQuery('#userName').val(),
                 password = jQuery('#password').val(),
                 resetPassword = jQuery('#resetPassword').val();
             if (username === '' || resetPassword === '') {
@@ -115,7 +117,7 @@
                 jQuery.ajax({
                     type: 'POST',
                     url: '/install/index/stepOne',
-                    data: 'username=' + username + '&password=' + password + '&resetPassword=' + resetPassword,
+                    data:  'hostname=' + hostname + '&hostport=' + hostport + '&username=' + username + '&password=' + password + '&resetPassword=' + resetPassword,
                     success: function (res) {
                         if (res.status == 1) {
                             location.href = '/install/index/stepTwo';
