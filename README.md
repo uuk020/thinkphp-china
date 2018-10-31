@@ -35,7 +35,7 @@
 <h2>未来计划</h2>
 <ul>
     <li style="text-decoration:line-through">路由注册(完成)</li>
-    <li>安装论坛功能</li>
+    <li>安装论坛功能(完成, 安装页面参考海豚PHP[DolphinPHP](https://github.com/caiweiming/DolphinPHP]]</li>
     <li>缓存Redis</li>
     <li>第三方登录: QQ, 微博</li>
     <li>手机验证短信</li>
