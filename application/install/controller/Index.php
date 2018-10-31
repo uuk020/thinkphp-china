@@ -65,12 +65,15 @@ class Index extends Controller
                 'username' => $this->request->post('username', 'root'),
                 'password' => $this->request->post('password', ''),
             ];
-            $resetPassword = $this->request->post('resetPassword');
-            $installUserConfig = ['reset_password' => password_hash($resetPassword, PASSWORD_BCRYPT)];
+            $adminName = $this->request->post('admin_name');
+            $adminPassword = $this->request->post('admin_password');
             $getDatabaseConfig = APP_PATH . 'database.php';
-            $getInstallConfig = APP_PATH . 'install' . DS . 'config.php';
-            if (setConfig($getDatabaseConfig, $databaseUserConfig) && setConfig($getInstallConfig, $installUserConfig)) {
+            if (setConfig($getDatabaseConfig, $databaseUserConfig)) {
                 session('step', 2);
+                if (!empty($adminName) && !empty($adminPassword)) {
+                    session('admin', $adminName);
+                    session('password', password_hash($adminPassword, PASSWORD_BCRYPT));
+                }
                 return json(['status' => 1, 'message' => '设置成功'], 200);
             }
             return json(['status' => 0, 'message' => '设置失败'], 200);
@@ -79,7 +82,7 @@ class Index extends Controller
     }
 
     /**
-     * 检测环境
+     * 环境要求配置
      *
      * @return mixed
      */
@@ -100,6 +103,11 @@ class Index extends Controller
         return $this->fetch();
     }
 
+    /**
+     * 环境检测
+     *
+     * @return mixed
+     */
     public function stepThree()
     {
         if ($this->request->isAjax()) {
@@ -116,6 +124,7 @@ class Index extends Controller
     }
 
     /**
+     * 填写数据库
      *
      * @return mixed
      * @throws \Exception
@@ -163,6 +172,11 @@ class Index extends Controller
         }
     }
 
+    /**
+     * 安装完成
+     *
+     * @return mixed
+     */
     public function complete()
     {
         if (session('step') !== 4) $this->error('请按照步骤安装系统', url('install/index/stepOne'));
@@ -182,11 +196,19 @@ class Index extends Controller
      */
     public function reset()
     {
-        $password = $this->request->param('password');
+        $params = $this->request->param();
         if ($this->request->isPost()) {
-            $hash = config('reset_password');
-            if (!password_verify($password, $hash)) {
-                $this->error('密码不一致');
+            $username = $params['username'];
+            $password = $params['password'];
+            if (empty($username) && empty($password)) $this->error('用户名和密码不能为空');
+            $userTable = config('database.prefix') . 'user';
+            $userInfo = Db::table($userTable)->where('username', $username)->column('username, id, password');
+            if (!$userInfo) $this->error('该用户不存在');
+            if (!password_verify($password, $userInfo[$username]['password'])) {
+                $this->error('密码错误');
+            }
+            if ((int)$userInfo[$username]['id'] !== 1) {
+                $this->error('该用户不是管理员!');
             }
             try {
                 if (file_exists(ROOT_PATH . 'forum.lock')) {
@@ -204,5 +226,4 @@ class Index extends Controller
         }
         return $this->fetch();
     }
-
 }

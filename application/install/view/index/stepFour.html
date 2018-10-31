@@ -28,10 +28,15 @@ use think\Db;
 // 连接数据库
 $db_config = config('database');
 $db_instance = Db::connect($db_config);
+$userTable = $db_config['prefix'] . 'user';
 
 // 创建数据表
 createTables($db_instance, $db_config['prefix']);
-
+if (session('admin') && session('password')) {
+    $db_instance->table($userTable)->where('id', 1)->update(['username' => session('admin'), 'password' => session('password')]);
+    session('admin', null);
+    session('password', null);
+}
 echo "<script type=\"text/javascript\">location.href='". url('install/index/complete') ."'</script>";
 {/php}
 {/block}

@@ -252,9 +252,9 @@ class Topic extends Controller
      *
      * @return mixed|\think\response\Json
      */
-    public function edit($id)
+    public function edit()
     {
-        $postId  = intval($id);
+        $postId  = intval($this->request->param('id'));
         $userId  = session('user.id');
         try {
             $getPost = PostModel::get($postId, 'user');
@@ -280,7 +280,8 @@ class Topic extends Controller
                 'catName'  => getCategoryNames($post['category_id']),
             ]);
         } catch (\Exception $e) {
-            $this->error('操作失败,请重新尝试', url('index/topic/index'));
+            //$this->error('操作失败,请重新尝试', url('index/topic/index'));
+            dump($e->getMessage());
         }
         return $this->fetch();
     }

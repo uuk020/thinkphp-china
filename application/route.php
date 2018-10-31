@@ -28,7 +28,7 @@ Route::get('topics', 'index/topic/index', [], []);
 Route::rule('articles/create', 'index/topic/add', 'GET|POST');
 Route::get('articles/:id', 'index/topic/detail');
 Route::get('category/:name/[:page]/[:filter]', 'index/topic/category', [], []);
-Route::rule('articles/edit/:id', 'index/topic/edit', 'GET|POST');
+Route::rule('article/:id/edit$', 'index/topic/edit');
 
 // 回帖相关路由
 Route::post('replies/create', 'index/reply/newReply', [], []);

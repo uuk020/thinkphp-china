@@ -105,19 +105,25 @@
                 hostport = jQuery('#hostport').val(),
                 username = jQuery('#userName').val(),
                 password = jQuery('#password').val(),
-                resetPassword = jQuery('#resetPassword').val();
-            if (username === '' || resetPassword === '') {
-                notify(errorStyle, '请输入数据库用户名或者重置密码', 'danger');
+                adminName = jQuery('#admin').val(),
+                adminPassword = jQuery('#admin_password').val();
+            if (username === '' ) {
+                notify(errorStyle, '请输入数据库用户名', 'danger');
             } else {
-                let passwordPattern = /^.*(?=.{8,12})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/;
-                if (!passwordPattern.test(resetPassword)) {
-                    notify(errorStyle, '密码小于6位或者过于简单, 最好有一个大写字母和特殊符号!');
+                var pattern = /^.*(?=.{6,16})(?=.*\d)(?=.*[A-Z]{2,})(?=.*[a-z]{2,})(?=.*[!@#$%^&*?\(\)]).*$/;
+                if (adminPassword && !pattern.test(adminPassword)) {
+                    notify(errorStyle, '密码不够安全(必须包含1个数字必须,包含2个小写字母,必须包含2个大写字母,必须包含1个特殊字符)');
+                    return false;
+                }
+                if (adminName && !adminPassword) {
+                    notify(errorStyle, '填写管理员账号,必须也填写管理员密码');
                     return false;
                 }
                 jQuery.ajax({
                     type: 'POST',
                     url: '/install/index/stepOne',
-                    data:  'hostname=' + hostname + '&hostport=' + hostport + '&username=' + username + '&password=' + password + '&resetPassword=' + resetPassword,
+                    data:  'hostname=' + hostname + '&hostport=' + hostport + '&username=' + username + '&password='
+                        + password + '&admin_name=' + adminName + '&admin_password=' + adminPassword,
                     success: function (res) {
                         if (res.status == 1) {
                             location.href = '/install/index/stepTwo';
