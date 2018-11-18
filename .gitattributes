@@ -1,4 +1,6 @@
 public/static/* linguist-documentation
 public/admin/* linguist-documentation
+public/install/* linguist-documentation
 application/index/view/* linguist-documentation
 application/admin/view/* linguist-documentation
+application/install/view/* linguist-documentation
