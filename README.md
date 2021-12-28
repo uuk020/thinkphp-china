@@ -6,7 +6,9 @@
 [![Build Status](https://s1.ax1x.com/2018/09/09/iihZDA.png)](https://fly.layui.com)
 ![downloads 32M/m](https://s1.ax1x.com/2018/09/09/iiRR58.png)
 
-<h2>项目介绍</h2>
+<h2>此项目已归档, 不再更新.<h2>
+
+<h3>项目介绍</h3>
 <p>闲暇之时使用thinkphp和fly社区前端模板开发了一个论坛用来整理技能知识, 基本上满足一个论坛所需功能.欢迎使用和提出issue!</p>
 <ul>
     <li>fly自带富文本编辑器</li>
